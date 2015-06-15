@@ -1,9 +1,10 @@
 module.exports = function () {
     var client = './src/client/';
     var clientApp = client + "app/";
+    var temp = "./.tmp/";
     var config = {
         //all the js to wet
-        temp:'./.tmp',
+        temp:temp,
         /**
          * files paths
          */
@@ -13,6 +14,7 @@ module.exports = function () {
         ],
         client: client,
         index: client +  "index.html",
+        css: temp + "styles.css",
         js: [
             clientApp + "**/*.mudole.js",
             clientApp + "**/*.js",

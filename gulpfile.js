@@ -42,6 +42,7 @@ gulp.task('styles',['clean-styles'],function(){
 });
 
 gulp.task('wiredep',function(){
+    log('Wire up the bower css and js and our app js into the html');
     var options = config.getWiredepDefaultOptions();//TODO
     log(options);
     var wiredep = require('wiredep').stream;
@@ -50,6 +51,13 @@ gulp.task('wiredep',function(){
             .pipe(wiredep(options))
             .pipe($.inject(gulp.src(config.js)))//TODO js ?
 
+            .pipe(gulp.dest(config.client));//TODO config
+});
+gulp.task('inject',['wiredep','styles'],function(){
+    log('Wire up the bower css and js and our app js into the html');
+    return gulp
+            .src(config.index)//TODO index.html
+            .pipe($.inject(gulp.src(config.css)))
             .pipe(gulp.dest(config.client));//TODO config
 });
 function errorlogger(error) {
