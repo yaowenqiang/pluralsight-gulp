@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var args = require('yargs').argv;
 var $ = require('gulp-load-plugins')({lazy:true});
+var config = require('./gulp.config')();
 //var jshint = require('gulp-jshint');
 //var jscs = require('gulp-jscs');
 //var util = require('gulp-util');
@@ -12,10 +13,7 @@ var $ = require('gulp-load-plugins')({lazy:true});
 gulp.task('web',function(){
     log('Analyzing source with JSHint and JSCS.');
     return gulp
-    .src([
-        './src/**/*.js',
-        './*.js'
-    ])
+    .src(config.alljs)
     //.pipe(gulpprint())
     //gulp web --verbose
     .pipe($.if(args.verbose,$.print()))
