@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var args = require('yargs').argv;
 var $ = require('gulp-load-plugins')({lazy:true});
 var config = require('./gulp.config')();
+var del = require('del');
 //var jshint = require('gulp-jshint');
 //var jscs = require('gulp-jscs');
 //var util = require('gulp-util');
@@ -23,7 +24,13 @@ gulp.task('web',function(){
     .pipe($.jshint.reporter('fail'));
 
 });
-gulp.task('styles',function(){
+gulp.task('clean-styles',function(done){
+    var files = config.temp + '**/*.css';
+    //log(files);
+    //del(files);
+    clean(files,done);
+});
+gulp.task('styles',['clean-styles'],function(){
     log("Compiling less to css");
     return gulp
     .src(config.less)//TODO add the config
@@ -31,6 +38,11 @@ gulp.task('styles',function(){
     .pipe($.autoprefixer({browsers:['last 2 version','> 5%']}))
     .pipe(gulp.dest(config.temp))
 });
+
+function clean(path,done) {
+    log("We are cleaning :" + $.util.colors.blue(path));
+    del(path,done);
+}
 ///////
 function log(msg) {
     if (typeof(msg) === 'object') {
