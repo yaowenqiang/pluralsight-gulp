@@ -60,6 +60,22 @@ gulp.task('inject',['wiredep','styles'],function(){
             .pipe($.inject(gulp.src(config.css)))
             .pipe(gulp.dest(config.client));//TODO config
 });
+gulp.task('serve-dev',['inject'],function(){
+    var dev = true;
+    var options = {
+        script: config.nodeServer, //TODO pp.js
+        delayTmme: 1,
+        env: {
+            //TODO 读取app.js中的变量
+            //"PORT": port? port : 7203,
+            //"NODE_ENV":isDev? 'dev' : 'build'
+            "PORT": 7203,
+            "NODE_ENV":'dev'
+        },
+        watch: [config.server]// TODO define the files to restart on
+    };
+    return $.nodemon(options);
+});
 function errorlogger(error) {
     log('*** Start of Error ***')
     log(error)
