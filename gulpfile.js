@@ -43,6 +43,10 @@ function clean(path,done) {
     log("We are cleaning :" + $.util.colors.blue(path));
     del(path,done);
 }
+gulp.task('less-watcher',function(){
+    gulp.watch([config.less],['styles'])
+
+})
 ///////
 function log(msg) {
     if (typeof(msg) === 'object') {
