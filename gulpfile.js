@@ -34,11 +34,19 @@ gulp.task('styles',['clean-styles'],function(){
     log("Compiling less to css");
     return gulp
     .src(config.less)//TODO add the config
+    .pipe($.plumber())
     .pipe($.less())
+    //.on('error',errorlogger)
     .pipe($.autoprefixer({browsers:['last 2 version','> 5%']}))
     .pipe(gulp.dest(config.temp))
 });
 
+function errorlogger(error) {
+    log('*** Start of Error ***')
+    log(error)
+    log('*** End of Error ***')
+    this.emit('end')
+}
 function clean(path,done) {
     log("We are cleaning :" + $.util.colors.blue(path));
     del(path,done);
