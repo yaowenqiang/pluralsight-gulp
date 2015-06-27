@@ -41,6 +41,17 @@ gulp.task('styles',['clean-styles'],function(){
     .pipe(gulp.dest(config.temp))
 });
 
+gulp.task('wiredep',function(){
+    var options = config.getWiredepDefaultOptions();//TODO
+    log(options);
+    var wiredep = require('wiredep').stream;
+    return gulp
+            .src(config.index)//TODO index.html
+            .pipe(wiredep(options))
+            .pipe($.inject(gulp.src(config.js)))//TODO js ?
+
+            .pipe(gulp.dest(config.client));//TODO config
+});
 function errorlogger(error) {
     log('*** Start of Error ***')
     log(error)
