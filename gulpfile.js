@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var args = require('yargs').argv;
+var browserSync = require('browser-sync');
 var $ = require('gulp-load-plugins')({lazy:true});
 var config = require('./gulp.config')();
 var del = require('del');
@@ -74,7 +75,20 @@ gulp.task('serve-dev',['inject'],function(){
         },
         watch: [config.server]// TODO define the files to restart on
     };
-    return $.nodemon(options);
+    return $.nodemon(options)
+        .on('restart',['web'],function(ev){
+            log('*** nodemon restarted')
+            log('files changed on restart:\n' + ev);
+        })
+        .on('start',function(){
+            log('*** nodemon started');
+        })
+        .on('crash',function(){
+            log('*** nodemon crashed: script crashed for some reason');
+        })
+        .on('exit',function(){
+            log('*** nodemon exited clearly');
+        })
 });
 function errorlogger(error) {
     log('*** Start of Error ***')
