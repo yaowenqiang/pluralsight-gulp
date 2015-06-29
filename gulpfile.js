@@ -79,6 +79,10 @@ gulp.task('serve-dev',['inject'],function(){
         .on('restart',['web'],function(ev){
             log('*** nodemon restarted')
             log('files changed on restart:\n' + ev);
+            setTimeout(function() {
+                browserSync.notify('reloading now ...');
+                browserSync.reload({stream:false});
+            }, config.browserReloadDelay);
         })
         .on('start',function(){
             log('*** nodemon started');
@@ -103,7 +107,7 @@ function changeEvent(event) {
     log('File ' + event.path.replace(srcPattern,'') + ' ' + event.type);
 }
 function startBrowserSync() {
-    if(browserSync.active) {
+    if(args.nosync || browserSync.active) {
         return;
     }
     var port = 7203;

@@ -2,6 +2,7 @@ module.exports = function () {
     var client = './src/client/';
     var clientApp = client + "app/";
     var temp = "./.tmp/";
+    var browserReloadDelay=1000;
     var server = "./src/server";
     var config = {
         //all the js to wet
