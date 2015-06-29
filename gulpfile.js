@@ -82,6 +82,7 @@ gulp.task('serve-dev',['inject'],function(){
         })
         .on('start',function(){
             log('*** nodemon started');
+            startBrowserSync();
         })
         .on('crash',function(){
             log('*** nodemon crashed: script crashed for some reason');
@@ -95,6 +96,36 @@ function errorlogger(error) {
     log(error)
     log('*** End of Error ***')
     this.emit('end')
+}
+
+function startBrowserSync() {
+    if(browserSync.active) {
+        return;
+    }
+    var port = 7203;
+    log("starting browser-sync on port :" + $.util.colors.blue(port));
+    var options = {
+        proxy: "localhost:" + port,
+        port: 3000,
+        files: [config.client + '**/*.*'],
+        ghostMode:{
+            clicks:true,
+            location:true,
+            forms:true,
+            scroll:true
+        },
+        injectChanges:true,
+        lgFileChanges:true,
+        logLevel:'debug',
+        logPrefix: 'gulp-ptternes',
+        notify: true,
+        reloadDelay: 1000
+    };
+    browserSync(options)
+    //browserSync.init({
+        //proxy:"local.dev"
+    //})
+
 }
 function clean(path,done) {
     log("We are cleaning :" + $.util.colors.blue(path));
@@ -116,3 +147,4 @@ function log(msg) {
         $.util.log($.util.colors.blue(msg));
     }
 }
+
