@@ -113,6 +113,7 @@ function startBrowserSync() {
     var port = 7203;
     log("starting browser-sync on port :" + $.util.colors.blue(port));
     gulp.watch([config.less],['styles'])
+    // TODO change the less files invoke a refresh rather than reload,this is a big issue.
         .on('change',function(event){
             changeEvent(event);
         });
@@ -122,7 +123,7 @@ function startBrowserSync() {
         files: [
             config.client + '**/*.*',
             '!' + config.less,
-            config.temp + '**/*.css',
+            config.temp + '**/*.css'
         ],
         ghostMode:{
             clicks:true,
@@ -137,6 +138,7 @@ function startBrowserSync() {
         notify: true,
         reloadDelay:0 // 1000
     };
+    console.dir(options);
     browserSync(options)
     //browserSync.init({
         //proxy:"local.dev"
