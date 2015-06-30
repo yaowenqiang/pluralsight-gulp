@@ -14,6 +14,8 @@ module.exports = function () {
         './src/**/*.js',
         './*.js'
         ],
+        build: "./build/",//.dist,prod,
+        fonts: "./bower_components/font-awesome/fonts/**/*.*",
         client: client,
         index: client +  "index.html",
         css: temp + "styles.css",

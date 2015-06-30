@@ -97,6 +97,11 @@ gulp.task('serve-dev',['inject'],function(){
 });
 gulp.task('help',$.taskListing);
 gulp.task('default',['help']);
+gulp.task('fonts',function(){
+    log('Copying fonts');
+    return gulp.src(config.fonts)
+     .pipe(gulp.dest(config.build + 'fonts'))
+});
 function errorlogger(error) {
     log('*** Start of Error ***')
     log(error)
