@@ -39,6 +39,25 @@ gulp.task('clean-fonts',function(done){
 gulp.task('clean-images',function(done){
     clean(config.build + 'images/**/*.*',done);
 });
+
+gulp.task('clean-code',function(done){
+    var files = [].concat(
+        config.temp + '**/*.js',
+        config.build + '**/*.html',
+        config.build + 'js/**/*.js'
+    );
+    clean(files,done);
+});
+gulp.task('templatecache',['clean-code'],function(){
+    log('Creating angularjs $templateCache')
+    return gulp
+            .src(config.htmltemplates)//TODO
+            .pipe($.minifyHtml({empty:true}))
+            // gulp-angular-templatecache
+            // TODO minify
+            .pipe($.angularTemplatecache( config.templateCache.file, config.templateCache.options))
+            .pipe(gulp.dest(config.temp))
+});
 gulp.task('styles',['clean-styles'],function(){
     log("Compiling less to css");
     return gulp
