@@ -102,6 +102,12 @@ gulp.task('fonts',function(){
     return gulp.src(config.fonts)
      .pipe(gulp.dest(config.build + 'fonts'))
 });
+gulp.task('images',function(){
+    log('Copying and compressing the images');
+    return gulp.src(config.images)
+            .pipe($.imagemin({optimizationLevel:4}))
+            .pipe(gulp.dest(config.build + 'images'))
+});
 function errorlogger(error) {
     log('*** Start of Error ***')
     log(error)
