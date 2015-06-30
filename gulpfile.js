@@ -25,11 +25,19 @@ gulp.task('web',function(){
     .pipe($.jshint.reporter('fail'));
 
 });
+gulp.task('clean',function(done){
+    var delconfig = [].concat(config.build,config.temp);
+    log('Clean:' + $.util.colors.blue(delconfig));
+    del(delconfig,done);
+});
 gulp.task('clean-styles',function(done){
-    var files = config.temp + '**/*.css';
-    //log(files);
-    //del(files);
-    clean(files,done);
+    clean(config.temp + '**/*.css',done);
+});
+gulp.task('clean-fonts',function(done){
+    clean(config.build + 'fonts/**/*.*',done);
+});
+gulp.task('clean-images',function(done){
+    clean(config.build + 'images/**/*.*',done);
 });
 gulp.task('styles',['clean-styles'],function(){
     log("Compiling less to css");
@@ -97,12 +105,12 @@ gulp.task('serve-dev',['inject'],function(){
 });
 gulp.task('help',$.taskListing);
 gulp.task('default',['help']);
-gulp.task('fonts',function(){
+gulp.task('fonts',['clean-fonts'],function(){
     log('Copying fonts');
     return gulp.src(config.fonts)
      .pipe(gulp.dest(config.build + 'fonts'))
 });
-gulp.task('images',function(){
+gulp.task('images',['clean-images'],function(){
     log('Copying and compressing the images');
     return gulp.src(config.images)
             .pipe($.imagemin({optimizationLevel:4}))
