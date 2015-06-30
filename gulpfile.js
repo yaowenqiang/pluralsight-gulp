@@ -95,6 +95,8 @@ gulp.task('serve-dev',['inject'],function(){
             log('*** nodemon exited clearly');
         })
 });
+gulp.task('help',$.taskListing);
+gulp.task('default',['help']);
 function errorlogger(error) {
     log('*** Start of Error ***')
     log(error)
