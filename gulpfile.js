@@ -95,18 +95,19 @@ gulp.task('optimize',['inject'],function(){
     var templateCache = config.temp + config.templateCache.file;
     log("the templateCache  is :" + $.util.colors.red(templateCache));
     var cssfiler = $.filter('**/*.css');
+    var jsfiler = $.filter('**/*.js');
     return gulp
             .src(config.index)
             .pipe($.debug({title:'gulp debug'}))
             .pipe($.plumber())
             .pipe($.inject(gulp.src(templateCache,{read:false}),{starttag:'<!-- inject:templates:js -->',endtag:'<!-- endinject -->'}))
             .pipe(assets)
-            //filter down to css
             .pipe(cssfiler)
-            // csso
             .pipe($.csso())
-            // filter restore
             .pipe(cssfiler.restore())
+            .pipe(jsfiler)
+            .pipe($.uglify())
+            .pipe(jsfiler.restore())
             .pipe($.debug({title:'assets debug'}))
             .pipe(assets.restore())
             .pipe($.useref())
